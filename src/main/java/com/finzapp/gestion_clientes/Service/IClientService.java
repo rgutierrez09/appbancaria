@@ -1,4 +1,4 @@
 package com.finzapp.gestion_clientes.Service;
 
-public class CustomerService {
+public interface IClientService {
 }

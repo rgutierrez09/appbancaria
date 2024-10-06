@@ -1,4 +1,4 @@
 package com.finzapp.gestion_clientes.Enum;
 
-public class AccountState {
+public enum StatAccount {
 }

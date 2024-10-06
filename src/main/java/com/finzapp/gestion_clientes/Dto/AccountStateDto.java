@@ -1,4 +1,4 @@
 package com.finzapp.gestion_clientes.Dto;
 
-public class AccountStateDTO {
+public class AccountStateDto {
 }
