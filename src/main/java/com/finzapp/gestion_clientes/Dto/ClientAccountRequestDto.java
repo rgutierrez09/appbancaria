@@ -1,4 +1,14 @@
 package com.finzapp.gestion_clientes.Dto;
 
-public class ClientAccountRequestDto {
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class ClientAccountRequestDto  {
+
+    private String typeAccount;
+    private ProductDto productDto;
+
 }
