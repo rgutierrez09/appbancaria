@@ -37,7 +37,7 @@ public class ClientEntity extends AuditEntity {
 
     @NotNull(message = "El nombre es obligatorio")
     @Length(min =2, message = "El nombre no puede tener menos de 2 caracteres")
-    @Column(name = "nombre_cliente")
+    @Column(name = "nombre_apellido")
     private String lastName;
 
     @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\\\.[a-zA-Z]{2,}$", message = "El formato no es valido")
@@ -47,7 +47,7 @@ public class ClientEntity extends AuditEntity {
     @Column(name ="fecha_nacimiento")
     private String DateOfBirth;
 
-    @OneToMany(mappedBy = "clienteEntinty",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "clientEntity", cascade = CascadeType.ALL)
     private List<ProductEntity> productEntity;
 
 }

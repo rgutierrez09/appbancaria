@@ -3,9 +3,9 @@ package com.finzapp.gestion_clientes.Service;
 import com.finzapp.gestion_clientes.Dto.ClientDto;
 
 public interface IClientService {
-    Object createCliente(ClientDto clientDTO);
+    Object createClient(ClientDto clientDTO);
 
-    Object updateCliente(String numberIdentification, ClientDto clientDTO);
+    Object updateClient(String numberIdentification, ClientDto clientDTO);
 
-    String deleteCliente(String numberIdentification);
+    String deleteClient(String numberIdentification);
 }

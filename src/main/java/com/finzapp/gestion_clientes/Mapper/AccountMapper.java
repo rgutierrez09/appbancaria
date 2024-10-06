@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 public class AccountMapper {
 
     public static AccountEntity dtoAccountEntity(ClientAccountRequestDto clientAccountRequestDto) {
-        ProductEntity productEntity = ProductMapper.dtoAccountEntity(clientAccountRequestDto.getProductDto());
+        ProductEntity productEntity = ProductMapper.dtoProductEntity(clientAccountRequestDto.getProductDto());
 
         AccountEntity accountEntity = new AccountEntity();
         accountEntity.setProductEntity(productEntity);
@@ -20,7 +20,7 @@ public class AccountMapper {
     }
 
 
-    public static List<AccountEntity> ListDtoAccountEntity(List<ClientAccountRequestDto> clientAccountRequestDtoList) {
+    public static List<AccountEntity> ListDtoAccountEntity(List<ClientAccountRequestDto> accountDto) {
         return accountDto.stream()
                 .map(AccountMapper::dtoAccountEntity)
                 .collect(Collectors.toList());
