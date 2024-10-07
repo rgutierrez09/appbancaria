@@ -2,6 +2,7 @@ package com.finzapp.gestion_clientes.Entity;
 
 import com.finzapp.gestion_clientes.Enum.TypeDocument;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
@@ -27,25 +28,25 @@ public class ClientEntity extends AuditEntity {
     private TypeDocument typeIdentification;
 
     @NotNull(message = "El numero de identificacion debe ser obligatorio")
-    @Column(name ="numero de identificacion")
+    @Column(name ="numero_de_identificacion")
     private String numberIdentification;
 
-    @NotNull(message = "El nombre es obligatorio")
+    @NotEmpty(message = "El nombre es obligatorio")
     @Length(min =2, message = "El nombre no puede tener menos de 2 caracteres")
     @Column(name = "nombre_cliente")
     private String name;
 
-    @NotNull(message = "El nombre es obligatorio")
+    @NotEmpty(message = "El nombre es obligatorio")
     @Length(min =2, message = "El nombre no puede tener menos de 2 caracteres")
     @Column(name = "nombre_apellido")
     private String lastName;
 
-    @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\\\.[a-zA-Z]{2,}$", message = "El formato no es valido")
+    @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", message = "El formato no es valido")
     @Column(name ="email")
     private String email;
 
     @Column(name ="fecha_nacimiento")
-    private String DateOfBirth;
+    private String dateOfBirth;
 
     @OneToMany(mappedBy = "clientEntity", cascade = CascadeType.ALL)
     private List<ProductEntity> productEntity;

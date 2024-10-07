@@ -22,62 +22,55 @@ public class ClientServiceImpl implements IClientService {
     @Override
     public Object createClient(ClientDto clientDto) {
         Boolean validAge = validateAgeClient(clientDto.getDateOfBirth());
-        if(!validAge){
-            return "NO PUEDES SER CLIENTE SI ERES MENOR DE EDAD";
+        if (!validAge) {
+            throw new IllegalArgumentException("NO PUEDES SER CLIENTE SI ERES MENOR DE EDAD");
         }
 
         clientDto.setCreationDate(LocalDateTime.now());
         clientDto.setModificationDate(null);
         ClientEntity saveInformation = ClientMapper.dtoClientEntity(clientDto);
         return clientRepository.save(saveInformation);
-
     }
 
     @Override
-    public Object updateClient (String numberIdentification, ClientDto clientDto){
+    public Object updateClient(String numberIdentification, ClientDto clientDto) {
         Optional<ClientEntity> existingClientEntity = clientRepository.findClientEntityBynumberIdentification(numberIdentification);
 
         boolean validAge = validateAgeClient(clientDto.getDateOfBirth());
-        if(!validAge){
-            return "NO PUEDES SER CLIENTE SI ERES MENOR DE EDAD";
+        if (!validAge) {
+            throw new IllegalArgumentException("NO PUEDES SER CLIENTE SI ERES MENOR DE EDAD");
         }
 
-        if(existingClientEntity.isPresent()){
+        if (existingClientEntity.isPresent()) {
             existingClientEntity.get().setTypeIdentification(clientDto.getTypeIdentification());
             existingClientEntity.get().setNumberIdentification(clientDto.getNumberIdentification());
             existingClientEntity.get().setName(clientDto.getName());
             existingClientEntity.get().setLastName(clientDto.getLastName());
             existingClientEntity.get().setEmail(clientDto.getEmail());
             existingClientEntity.get().setDateOfBirth(clientDto.getDateOfBirth());
-            existingClientEntity.get().setModificationDate(clientDto.getModificationDate());
+            existingClientEntity.get().setModificationDate(LocalDateTime.now());
             return clientRepository.save(existingClientEntity.get());
-
         }
-        return null;
+        throw new IllegalArgumentException("CLIENTE NO ENCONTRADO");
     }
 
     @Override
-    public String deleteClient (String numberIdentification){
+    public String deleteClient(String numberIdentification) {
         Optional<ClientEntity> clientEntity = clientRepository.findClientEntityBynumberIdentification(numberIdentification);
-        if(clientEntity.isPresent()){
-            if(clientEntity.get().getProductEntity().isEmpty()){
+        if (clientEntity.isPresent()) {
+            if (clientEntity.get().getProductEntity().isEmpty()) {
                 clientRepository.deleteById(clientEntity.get().getId());
                 return "CLIENTE ELIMINADO";
             }
-            return "ERROR AL ELIMINAR CLIENTE";
+            throw new IllegalArgumentException("ERROR AL ELIMINAR CLIENTE, TIENE PRODUCTOS ASOCIADOS");
         }
-        return "ERROR CLIENTE NO ENCONTRADO";
+        throw new IllegalArgumentException("ERROR CLIENTE NO ENCONTRADO");
     }
 
-    private boolean validateAgeClient(String dateOfBirth){
+    private boolean validateAgeClient(String dateOfBirth) {
         LocalDate dateBir = LocalDate.parse(dateOfBirth);
         LocalDate now = LocalDate.now();
         Period period = Period.between(dateBir, now);
-        int age = period.getYears();
-        if(age < 18){
-            return false;
-        }
-        return true;
+        return period.getYears() >= 18;
     }
-
 }
